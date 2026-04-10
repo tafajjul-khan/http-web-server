@@ -1,0 +1,42 @@
+# Dependency directories
+node_modules/
+jspm_packages/
+
+# Debug logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Environment variables (Sensitive Data)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+*.env.bak
+
+# TypeScript / Build output
+dist/
+lib/
+out/
+tsconfig.tsbuildinfo
+
+# Operating System files
+.DS_Store
+Thumbs.db
+
+# IDE/Editor folders
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Coverage folders (Testing)
+coverage/
+.nyc_output/
+
+# Optional: Locking dependencies
+# Only ignore these if you have a specific reason; 
+# generally, you SHOULD commit package-lock.json or yarn.lock
+# npm-shrinkwrap.json
