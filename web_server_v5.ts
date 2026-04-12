@@ -138,7 +138,7 @@ function bufPop(buf: DynBuf, len: number): void {
 }
 
 async function bufExpectMore(conn: TCPConn, buf: DynBuf, msg: string) {
-  const data = await soRead(conn); // Yahan fix kiya: soRead use karein
+  const data = await soRead(conn); 
   if (data.length === 0) {
     throw new Error(`Unexpected EOF while reading ${msg}`);
   }
@@ -271,13 +271,13 @@ function readerFromMemory(data: Buffer): BodyReader {
 
 function readerFromGenerator(gen: AsyncGenerator<Buffer>): BodyReader {
   return {
-    length: -1, // -1 matlab unknown length (chunked encoding use hogi)
+    length: -1, 
     read: async (): Promise<Buffer> => {
-      const r = await gen.next(); // Generator se agla piece maangna
+      const r = await gen.next(); 
       if (r.done) {
         return Buffer.from(""); // EOF (End of File)
       } else {
-        return r.value; // Data piece mil gaya
+        return r.value; 
       }
     },
   };
@@ -358,10 +358,10 @@ async function output_to_conn(
   while (true) {
     const chunk = await reader.read();
     if (chunk.length === 0) {
-      break; // Jab reader khali ho jaye (EOF)
+      break; 
     }
 
-    // Agar hum chunked encoding use kar rahe hain (length < 0)
+ 
     if (reader.length < 0) {
       const size = chunk.length.toString(16);
       const crlf = Buffer.from("\r\n");
@@ -370,12 +370,11 @@ async function output_to_conn(
         Buffer.concat([Buffer.from(size), crlf, chunk, crlf]),
       );
     } else {
-      // Normal writing
+
       await soWrite(conn, chunk);
     }
   }
 
-  // Agar chunked hai, toh last mein '0\r\n\r\n' bhejkar end karo
   if (reader.length < 0) {
     await soWrite(conn, Buffer.from("0\r\n\r\n"));
   }
