@@ -1,0 +1,46 @@
+body {
+    background-color: #1a1a2e;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    color: white;
+    font-family: sans-serif;
+}
+
+.card {
+    background: #16213e;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.progress-container {
+    width: 300px;
+    height: 20px;
+    background: #0f3460;
+    border-radius: 10px;
+    margin: 20px 0;
+    overflow: hidden;
+}
+
+#progress-bar {
+    width: 0%;
+    height: 100%;
+    background: linear-gradient(90deg, #e94560, #fb8500);
+    transition: width 0.5s ease-in-out; /* Yeh animation handle karta hai */
+}
+
+button {
+    background: #e94560;
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+button:hover { background: #ff4d6d; }
