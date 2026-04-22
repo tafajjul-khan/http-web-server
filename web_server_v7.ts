@@ -360,33 +360,6 @@ async function writeHTTPResp(conn: TCPConn, resp: HTTPRes): Promise<void> {
   }
 }
 
-async function output_to_conn(
-  conn: TCPConn,
-  reader: BodyReader,
-): Promise<void> {
-  while (true) {
-    const chunk = await reader.read();
-    if (chunk.length === 0) {
-      break;
-    }
-
-    if (reader.length < 0) {
-      const size = chunk.length.toString(16);
-      const crlf = Buffer.from("\r\n");
-      await soWrite(
-        conn,
-        Buffer.concat([Buffer.from(size), crlf, chunk, crlf]),
-      );
-    } else {
-      await soWrite(conn, chunk);
-    }
-  }
-
-  if (reader.length < 0) {
-    await soWrite(conn, Buffer.from("0\r\n\r\n"));
-  }
-}
-
 async function serveClient(conn: TCPConn): Promise<void> {
   const buf: DynBuf = { data: Buffer.alloc(0), length: 0 };
   const remoteAddr = conn.socket.remoteAddress + ":" + conn.socket.remotePort;
@@ -412,19 +385,6 @@ async function serveClient(conn: TCPConn): Promise<void> {
     console.log(`[${remoteAddr}] Response sent with code ${res.code}`);
     if (msg.version.includes("1.0")) return;
     while ((await reqBody.read()).length > 0) {}
-  }
-  async function produce_response(conn: TCPConn) {
-    // Example 1: Data from memory (Hello World)
-    const data1 = readerFromMemory(Buffer.from("Step 1: Starting stream...\n"));
-    await output_to_conn(conn, data1);
-
-    // Example 2: Data from a generator (The Sheep counter)
-    const data2 = readerFromGenerator(countSheep());
-    await output_to_conn(conn, data2);
-
-    // Example 3: Closing message
-    const data3 = readerFromMemory(Buffer.from("\nStep 3: Stream Finished."));
-    await output_to_conn(conn, data3);
   }
 }
 
@@ -670,6 +630,6 @@ async function handleReq(req: HTTPReq, body: BodyReader): Promise<HTTPRes> {
 
 const server = net.createServer({ pauseOnConnect: true });
 server.on("connection", newConn);
-server.listen({ host: "127.0.0.1", port: 1234 }, () => {
-  console.log("Server running at http://127.0.0.1:1234");
+server.listen({ host: "127.0.0.3", port: 1234 }, () => {
+  console.log("Server running at http://127.0.0.3:1234");
 });
