@@ -14,6 +14,11 @@ type TCPConn = {
   };
 };
 
+type DynBuf = {
+  data: Buffer;
+  length: number;
+};
+
 function soInit(socket: net.Socket): TCPConn {
   const conn: TCPConn = {
     socket: socket,
@@ -94,6 +99,7 @@ async function newConn(socket: net.Socket): Promise<void> {
     socket.destroy();
   }
 }
+
 async function serveClient(socket: net.Socket): Promise<void> {
   const conn: TCPConn = soInit(socket);
   const buf: DynBuf = { data: Buffer.alloc(0), length: 0 };
@@ -110,7 +116,6 @@ async function serveClient(socket: net.Socket): Promise<void> {
       // EOF
       console.log("data", data);
       if (data.length === 0) {
-        // ommitted
         console.log("client closed connection");
         return;
       }
@@ -130,12 +135,7 @@ async function serveClient(socket: net.Socket): Promise<void> {
       await soWrite(conn, reply);
     }
   }
-} // loop for the message
-
-type DynBuf = {
-  data: Buffer;
-  length: number;
-};
+} 
 
 // extract a message from the buffer, return null if not enough data
 function cutMessage(buf: DynBuf): null | Buffer {
@@ -177,5 +177,5 @@ const server = net.createServer({
 
 server.on("connection", newConn); 
 server.listen({ host: "127.0.0.1", port: 1234 }, () => {
-  console.log("Server chalu ho gaya: 127.0.0.1:1234");
+  console.log("Server is running in port: 127.0.0.1:1234");
 });
