@@ -115,5 +115,5 @@ const server = net.createServer({
 
 server.on('connection', newConn); 
 server.listen({host: '127.0.0.1', port: 1234}, () => {
-    console.log('Server chalu ho gaya: 127.0.0.1:1234');
+    console.log('Server is running in port: 127.0.0.1:1234');
 });
