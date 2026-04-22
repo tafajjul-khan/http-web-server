@@ -2,9 +2,9 @@
   "name": "http-web-server",
   "version": "1.0.0",
   "description": "",
-  "main": "web_server_v5.ts",
+  "main": "web_server_v8.ts",
   "scripts": {
-    "dev": "nodemon --exec tsx web_server_v7.ts",
+    "dev": "nodemon --exec tsx web_server_v8.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
